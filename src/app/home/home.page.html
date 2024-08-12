@@ -1,0 +1,47 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Task List
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Task List</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <form (ngSubmit)="addTask()">
+      <ion-item>
+        <ion-label position="floating">Title</ion-label>
+        <ion-input [(ngModel)]="newTask.title" name="title" required minlength="3"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="titleError">{{ titleError }}</ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Description</ion-label>
+        <ion-textarea [(ngModel)]="newTask.description" name="description" required minlength="10"></ion-textarea>
+      </ion-item>
+      <ion-text color="danger" *ngIf="descriptionError">{{ descriptionError }}</ion-text>
+
+      <ion-button expand="block" type="submit">Add Task</ion-button>
+    </form>
+
+    <ion-list *ngIf="tasks.length > 0">
+      <ion-item *ngFor="let task of tasks">
+        <ion-label>
+          <h2>{{ task.title }}</h2>
+          <p>{{ task.description }}</p>
+        </ion-label>
+        <ion-checkbox slot="end" [checked]="task.done" (ionChange)="toggleTaskStatus(task)"></ion-checkbox>
+      </ion-item>
+    </ion-list>
+
+    <ion-text *ngIf="tasks.length === 0">
+      <p>No hay tareas disponibles. ¡Agregue una nueva tarea para comenzar!</p>
+    </ion-text>
+  </div>
+</ion-content>
